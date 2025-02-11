@@ -2,10 +2,12 @@ name: Publish
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version number"
+      bump-level:
+        type: choice
+        options: [major, minor, patch]
         required: true
-        default: "0.0.1"
+        default: patch
+        description: "The level of version bump to apply"
 
 jobs:
   publish:
@@ -27,7 +29,13 @@ jobs:
           $versionString = $manifest.Version.ToString()
           Write-Output "Current Module Version: $versionString"
 
-          $newVersion = New-Object System.Version(${{ github.event.inputs.version }})
+          $newVersion = $manifest.Version
+          switch ($env:INPUT_BUMP-LEVEL) {
+              'major' { $newVersion = New-Object System.Version($manifest.Version.Major + 1, 0, 0) }
+              'minor' { $newVersion = New-Object System.Version($manifest.Version.Major, $manifest.Version.Minor + 1, 0) }
+              'patch' { $newVersion = New-Object System.Version($manifest.Version.Major, $manifest.Version.Minor, $manifest.Version.Build + 1) }
+          }
+
           Update-ModuleManifest -ModuleVersion $newVersion -Path $env:PSD1_PATH
 
           $manifest = Test-ModuleManifest $env:PSD1_PATH

@@ -1,0 +1,39 @@
+name: Sample
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sample:
+    name: Sample Use Case
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Package
+        shell: pwsh
+        run: |
+          # install
+          Install-Module -Name UnityPackageArchiver -Force
+
+          # check available module
+          Get-Module -ListAvailable UnityPackageArchiver
+      - name: Check out
+        uses: actions/checkout@v4
+      - name: Import-UnityPackage
+        shell: pwsh
+        run: |
+          Import-UnityPackage -UnityPackagePath ./Tests/Data/Import/Input/sample.unitypackage -OutputDir ./Tests/Data/Import/Output
+      - name: Export-UnityPackage
+        shell: pwsh
+        run: |
+          Export-UnityPackage `
+                -OutputFilePath "./Tests/Data/Export/Output/Sample.unitypackage" `
+                -TargetFiles "./Tests/Data/Export/Input/Assets/Prefabs/GameObject.prefab", `
+                "./Tests/Data/Export/Input/Assets/Scenes/SampleScene.unity", `
+                "./Tests/Data/Export/Input/Assets/Scripts/Sample.cs", `
+                "./Tests/Data/Export/Input/Assets/Scripts/Editor/SampleEditor.cs", `
+                "./Tests/Data/Export/Input/Assets/Sprites/logo.png", `
+                "./Tests/Data/Export/Input/Assets/Sprites/note.pdf"

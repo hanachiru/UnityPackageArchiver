@@ -1,4 +1,15 @@
+<#
+.Synopsis
+    import Unity packages.
+.PARAMETER UnityPackagePath
+    path to .unitypackage file
+.PARAMETER OutputDir
+    output directory path(default: same directory as .unitypackage file)
+.EXAMPLE
+    Import-UnityPackage -UnityPackagePath "C:\path\to\package.unitypackage" -OutputDir "C:\output\directory"
+#>
 function Import-UnityPackage {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
         [string]$UnityPackagePath,
@@ -83,7 +94,18 @@ function Import-UnityPackage {
     Remove-Item -Path $tempDirPath -Recurse -Force
 }
 
+<#
+.Synopsis
+    Export .unitypackage file.
+.PARAMETER OutputFilePath
+    The path where the .unitypackage file will be saved.
+.PARAMETER TargetFiles
+    The files to be included in the .unitypackage file. (Do not include .meta)
+.EXAMPLE
+    Export-UnityPackage -OutputFilePath "C:\path\to\output.unitypackage" -TargetFiles "C:\path\to\Assets\MyAsset.prefab", "C:\path\to\Assets\MyScript.cs"
+#>
 function Export-UnityPackage {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
         [string]$OutputFilePath,

@@ -40,9 +40,9 @@ jobs:
 
           $newVersion = $manifest.Version
           switch ('${{ github.event.inputs.bump-level }}') {
-              'major' { $newVersion = New-Object System.Version([int]$manifest.Version.Major + 1, 0, 0) }
-              'minor' { $newVersion = New-Object System.Version([int]$manifest.Version.Major, [int]$manifest.Version.Minor + 1, 0) }
-              'patch' { $newVersion = New-Object System.Version([int]$manifest.Version.Major, [int]$manifest.Version.Minor, [int]$manifest.Version.Build + 1) }
+              'major' { $newVersion = New-Object System.Version($([int]$manifest.Version.Major + 1), 0, 0) }
+              'minor' { $newVersion = New-Object System.Version($([int]$manifest.Version.Major), $([int]$manifest.Version.Minor + 1), 0) }
+              'patch' { $newVersion = New-Object System.Version($([int]$manifest.Version.Major), $([int]$manifest.Version.Minor), $([int]$manifest.Version.Build + 1)) }
           }
 
           Update-ModuleManifest -ModuleVersion $newVersion -Path $env:PSD1_PATH

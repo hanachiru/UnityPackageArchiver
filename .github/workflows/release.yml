@@ -15,6 +15,7 @@ permissions:
 env:
   MODULE_PATH: ./UnityPackageArchiver
   PSD1_PATH: ./UnityPackageArchiver/UnityPackageArchiver.psd1
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   publish:

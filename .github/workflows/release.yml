@@ -15,7 +15,6 @@ permissions:
 env:
   MODULE_PATH: ./UnityPackageArchiver
   PSD1_PATH: ./UnityPackageArchiver/UnityPackageArchiver.psd1
-  GH_TOKEN: ${{ github.token }}
 
 jobs:
   publish:
@@ -58,6 +57,7 @@ jobs:
           USERNAME: github-actions[bot]
           EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
           BRANCH: auto/${{ github.run_id }}/${{ github.run_attempt }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git config --global user.name "${USERNAME}"
           git config --global user.email "${EMAIL}"

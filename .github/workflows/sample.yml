@@ -15,18 +15,21 @@ jobs:
       - name: Install Package
         shell: pwsh
         run: |
-          # install
+          # NOTE: Modules can be used in the same job. Install Path : /home/runner/work/UnityPackageArchiver/UnityPackageArchiver
           Install-Module -Name UnityPackageArchiver -Force
 
           # check available module
           Get-Module -ListAvailable UnityPackageArchiver
+
+      # for checkout SampleData
       - name: Check out
         uses: actions/checkout@v4
-      - name: Import-UnityPackage
+
+      - name: Use Import-UnityPackage
         shell: pwsh
         run: |
           Import-UnityPackage -UnityPackagePath ./Tests/Data/Import/Input/sample.unitypackage -OutputDir ./Tests/Data/Import/Output
-      - name: Export-UnityPackage
+      - name: Use Export-UnityPackage
         shell: pwsh
         run: |
           Export-UnityPackage `

@@ -1,4 +1,4 @@
-name: Test
+name: Sample
 on:
   push:
     branches:
@@ -30,10 +30,10 @@ jobs:
         shell: pwsh
         run: |
           Export-UnityPackage `
-                -OutputFilePath "./Data/Export/Output/Sample.unitypackage" `
+                -OutputFilePath "./Tests/Data/Export/Output/Sample.unitypackage" `
                 -TargetFiles "./Data/Export/Input/Assets/Prefabs/GameObject.prefab", `
-                "./Data/Export/Input/Assets/Scenes/SampleScene.unity", `
-                "./Data/Export/Input/Assets/Scripts/Sample.cs", `
-                "./Data/Export/Input/Assets/Scripts/Editor/SampleEditor.cs", `
-                "./Data/Export/Input/Assets/Sprites/logo.png", `
-                "./Data/Export/Input/Assets/Sprites/note.pdf"
+                "./Tests/Data/Export/Input/Assets/Scenes/SampleScene.unity", `
+                "./Tests/Data/Export/Input/Assets/Scripts/Sample.cs", `
+                "./Tests/Data/Export/Input/Assets/Scripts/Editor/SampleEditor.cs", `
+                "./Tests/Data/Export/Input/Assets/Sprites/logo.png", `
+                "./Tests/Data/Export/Input/Assets/Sprites/note.pdf"

@@ -1,0 +1,42 @@
+name: Publish
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version number"
+        required: true
+        default: "0.0.1"
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    env:
+      MODULE_PATH: ./UnityPackageArchiver
+      PSD1_PATH: ./UnityPackageArchiver/UnityPackageArchiver.psd1
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Check and Update Version
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $ErrorActionPreference = 'Stop'
+
+          $manifest = Test-ModuleManifest $env:PSD1_PATH
+          $versionString = $manifest.Version.ToString()
+          Write-Output "Current Module Version: $versionString"
+
+          $newVersion = New-Object System.Version(${{ github.event.inputs.version }})
+          Update-ModuleManifest -ModuleVersion $newVersion -Path $env:PSD1_PATH
+
+          $manifest = Test-ModuleManifest $env:PSD1_PATH
+          $versionString = $manifest.Version.ToString()
+          Write-Host "New Module Version: $versionString"
+      - name: Publish to PowerShell Gallery
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $ErrorActionPreference = 'Stop'
+
+          Publish-Module -Path $env:MODULE_PATH -NuGetApiKey ${{ secrets.POWERSHELL_GALLERY_API_KEY }} -Repository PSGallery -Force

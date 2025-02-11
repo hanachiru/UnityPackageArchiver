@@ -51,6 +51,21 @@ jobs:
           $versionString = $newManifest.Version.ToString()
           Write-Host "New Module Version: $versionString"
           Write-Output "newVersion=${versionString}" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
+      - name: Create Pull Request
+        shell: bash
+        env:
+          USERNAME: github-actions[bot]
+          EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          BRANCH: auto/${{ github.run_id }}/${{ github.run_attempt }}
+        run: |
+          git config --global user.name "${USERNAME}"
+          git config --global user.email "${EMAIL}"
+          git switch -c "${BRANCH}"
+          git add "${PSD1_PATH}"
+          message="Update v${VERSION} at .psd1"
+          git commit -m "${message}"
+          git push origin "${BRANCH}"
+          gh pr create --head "${BRANCH}" --title "${message}" --body "${message}"
       - name: Publish to PowerShell Gallery
         shell: pwsh
         run: |

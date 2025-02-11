@@ -92,7 +92,7 @@ function Import-UnityPackage {
             Move-Item -Path $metaSource -Destination $metaFile -Force
         }
 
-        Write-Output "$guid => $mapping[$guid]"
+        Write-Output "$guid => $mapping[$guid].ToString()"
     }
 
     Remove-Item -Path $tempDirPath -Recurse -Force
@@ -203,6 +203,8 @@ function Export-UnityPackage {
         # NOTE: Extracts the first matching ‘Assets’ and subsequent parts from the Path.
         $path = $mapping[$guid] -replace '.*?(Assets)', 'Assets'
         Set-Content -Path $pathnamePath -Value $path -Encoding utf8
+
+        Write-Output "$guid => $mapping[$guid].ToString()"
     }
 
     tar -czf $OutputFilePath -C $tempDirPath .

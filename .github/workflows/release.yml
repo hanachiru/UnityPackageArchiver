@@ -56,7 +56,7 @@ jobs:
           $PSNativeCommandUseErrorActionPreference = $true
           $ErrorActionPreference = 'Stop'
 
-          $newVersion = $manifest.Version
+          $newVersion = $null
           switch (${{ github.event.inputs.bump-level }}) {
               'major' { $newVersion = New-Object System.Version(${{ needs.prepare.outputs.major }} + 1, 0, 0) }
               'minor' { $newVersion = New-Object System.Version(${{ needs.prepare.outputs.major }}, ${{ needs.prepare.outputs.minor }} + 1, 0) }

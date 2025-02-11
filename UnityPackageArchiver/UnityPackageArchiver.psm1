@@ -23,6 +23,10 @@ function Import-UnityPackage {
         throw "The 'tar' command is not available. Please ensure that 'tar' is installed and accessible in your PATH."
     }
 
+    if (-not (Test-Path -Path $UnityPackagePath)) {
+        throw "The input file does not exist: $UnityPackagePath"
+    }
+
     $unityPackageExtension = [System.IO.Path]::GetExtension($UnityPackagePath)
     if ($unityPackageExtension -ne ".unitypackage") {
         throw "The input file must be a .unitypackage file."
@@ -113,6 +117,14 @@ function Export-UnityPackage {
         [Parameter(Mandatory = $true)]
         [string[]]$TargetFiles
     )
+
+    $outputFileExtension = [System.IO.Path]::GetExtension($OutputFilePath)
+    if ($outputFileExtension -ne ".unitypackage") {
+        throw "The output file must be a .unitypackage file."
+    }
+    if ($TargetFiles.Count -eq 0) {
+        throw "The target files are empty."
+    }
 
     $outputDirPath = [System.IO.Path]::GetDirectoryName($OutputFilePath)
     $tempDirPath = Join-Path -Path $outputDirPath -ChildPath "temp"

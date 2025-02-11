@@ -1,14 +1,14 @@
 <#
 .Synopsis
-    import Unity packages.
+    Unpack .unitypackage file.
 .PARAMETER UnityPackagePath
     path to .unitypackage file
 .PARAMETER OutputDir
     output directory path(default: same directory as .unitypackage file)
 .EXAMPLE
-    Import-UnityPackage -UnityPackagePath "C:\path\to\package.unitypackage" -OutputDir "C:\output\directory"
+    Expand-UnityPackage -UnityPackagePath "C:\path\to\package.unitypackage" -OutputDir "C:\output\directory"
 #>
-function Import-UnityPackage {
+function Expand-UnityPackage {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -100,15 +100,15 @@ function Import-UnityPackage {
 
 <#
 .Synopsis
-    Export .unitypackage file.
+    Convert to .unitypackage
 .PARAMETER OutputFilePath
     The path where the .unitypackage file will be saved.
 .PARAMETER TargetFiles
     The files to be included in the .unitypackage file. (Do not include .meta)
 .EXAMPLE
-    Export-UnityPackage -OutputFilePath "C:\path\to\output.unitypackage" -TargetFiles "C:\path\to\Assets\MyAsset.prefab", "C:\path\to\Assets\MyScript.cs"
+    Compress-UnityPackage -OutputFilePath "C:\path\to\output.unitypackage" -TargetFiles "C:\path\to\Assets\MyAsset.prefab", "C:\path\to\Assets\MyScript.cs"
 #>
-function Export-UnityPackage {
+function Compress-UnityPackage {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]

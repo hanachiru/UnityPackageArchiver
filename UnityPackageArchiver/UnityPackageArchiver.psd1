@@ -30,7 +30,7 @@ CompanyName = 'hanachiru'
 Copyright = '(c) hanachiru. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'PowerShell module for extracting and compressing Unity packages.'
+Description = 'PowerShell module for compressing and expanding Unity packages.'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -69,7 +69,7 @@ Description = 'PowerShell module for extracting and compressing Unity packages.'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Import-UnityPackage', 'Export-UnityPackage'
+FunctionsToExport = 'Expand-UnityPackage', 'Compress-UnityPackage'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()

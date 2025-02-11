@@ -31,7 +31,7 @@ jobs:
         run: |
           Export-UnityPackage `
                 -OutputFilePath "./Tests/Data/Export/Output/Sample.unitypackage" `
-                -TargetFiles "./Data/Export/Input/Assets/Prefabs/GameObject.prefab", `
+                -TargetFiles "./Tests/Data/Export/Input/Assets/Prefabs/GameObject.prefab", `
                 "./Tests/Data/Export/Input/Assets/Scenes/SampleScene.unity", `
                 "./Tests/Data/Export/Input/Assets/Scripts/Sample.cs", `
                 "./Tests/Data/Export/Input/Assets/Scripts/Editor/SampleEditor.cs", `

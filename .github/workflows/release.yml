@@ -47,10 +47,10 @@ jobs:
 
           Update-ModuleManifest -ModuleVersion $newVersion -Path $env:PSD1_PATH
 
-          $manifest = Test-ModuleManifest $env:PSD1_PATH
-          $versionString = $manifest.Version.ToString()
+          $newManifest = Test-ModuleManifest $env:PSD1_PATH
+          $versionString = $newManifest.Version.ToString()
           Write-Host "New Module Version: $versionString"
-          Write-Output "newVersion=${ versionString }" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
+          Write-Output "newVersion=${versionString}" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
       - name: Publish to PowerShell Gallery
         shell: pwsh
         run: |

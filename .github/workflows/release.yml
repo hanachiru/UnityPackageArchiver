@@ -9,31 +9,58 @@ on:
         default: patch
         description: "The level of version bump to apply"
 
+permissions:
+  contents: read
+
+env:
+  MODULE_PATH: ./UnityPackageArchiver
+  PSD1_PATH: ./UnityPackageArchiver/UnityPackageArchiver.psd1
+
 jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    outputs:
+      major: ${{ steps.get-version.outputs.major }}
+      minor: ${{ steps.get-version.outputs.minor }}
+      patch: ${{ steps.get-version.outputs.patch }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Get Version
+        id: get-version
+        shell: pwsh
+        run: |
+          $manifest = Test-ModuleManifest $env:PSD1_PATH
+          $versionString = $manifest.Version.ToString()
+          Write-Output "Current Module Version: $versionString"
+          Write-Output "major=${ manifest.Version.Major }" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
+          Write-Output "minor=${ manifest.Version.Minor }" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
+          Write-Output "patch=${ manifest.Version.Build }" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
+
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    env:
-      MODULE_PATH: ./UnityPackageArchiver
-      PSD1_PATH: ./UnityPackageArchiver/UnityPackageArchiver.psd1
+    if: github.event_name == 'workflow_dispatch' && github.ref_name == 'main'
+    needs: prepare
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Check and Update Version
+        id: update-version
         shell: pwsh
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           $ErrorActionPreference = 'Stop'
 
-          $manifest = Test-ModuleManifest $env:PSD1_PATH
-          $versionString = $manifest.Version.ToString()
-          Write-Output "Current Module Version: $versionString"
-
           $newVersion = $manifest.Version
           switch (${{ github.event.inputs.bump-level }}) {
-              'major' { $newVersion = New-Object System.Version($manifest.Version.Major + 1, 0, 0) }
-              'minor' { $newVersion = New-Object System.Version($manifest.Version.Major, $manifest.Version.Minor + 1, 0) }
-              'patch' { $newVersion = New-Object System.Version($manifest.Version.Major, $manifest.Version.Minor, $manifest.Version.Build + 1) }
+              'major' { $newVersion = New-Object System.Version(${{ needs.prepare.outputs.major }} + 1, 0, 0) }
+              'minor' { $newVersion = New-Object System.Version(${{ needs.prepare.outputs.major }}, ${{ needs.prepare.outputs.minor }} + 1, 0) }
+              'patch' { $newVersion = New-Object System.Version(${{ needs.prepare.outputs.major }}, ${{ needs.prepare.outputs.minor }}, ${{ needs.prepare.outputs.patch }} + 1) }
           }
 
           Update-ModuleManifest -ModuleVersion $newVersion -Path $env:PSD1_PATH
@@ -41,6 +68,7 @@ jobs:
           $manifest = Test-ModuleManifest $env:PSD1_PATH
           $versionString = $manifest.Version.ToString()
           Write-Host "New Module Version: $versionString"
+          Write-Output "newVersion=${ versionString }" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
       - name: Publish to PowerShell Gallery
         shell: pwsh
         run: |
@@ -48,3 +76,13 @@ jobs:
           $ErrorActionPreference = 'Stop'
 
           Publish-Module -Path $env:MODULE_PATH -NuGetApiKey ${{ secrets.POWERSHELL_GALLERY_API_KEY }} -Repository PSGallery -Force
+      - uses: release-drafter/release-drafter@v6
+        id: release-drafter
+        with:
+          publish: true
+          commitish: main
+          tag: v${{ steps.update-version.outputs.newVersion }}
+          name: v${{ steps.update-version.outputs.newVersion }}
+          version: ${{ steps.update-version.outputs.newVersion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

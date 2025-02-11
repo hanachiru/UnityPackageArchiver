@@ -99,7 +99,8 @@
 
             # Tags applied to this module. These help with module discovery in online galleries.
             Tags       = @(
-                'Unity'
+                'Unity',
+                'UnityPackage'
             )
 
             # A URL to the license for this module.

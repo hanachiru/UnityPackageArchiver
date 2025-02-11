@@ -1,5 +1,5 @@
 BeforeAll {
-    Expand-Module "${PSScriptRoot}/../../UnityPackageArchiver" -Force
+    Import-Module "${PSScriptRoot}/../../UnityPackageArchiver" -Force
     
     if (Test-Path -Path "${PSScriptRoot}/../Data/Expand/Output") {
         Remove-Item -Path "${PSScriptRoot}/../Data/Expand/Output" -Recurse -Force

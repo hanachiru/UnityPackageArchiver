@@ -20,6 +20,14 @@ Describe 'Compress-UnityPackage' {
                 "${PSScriptRoot}/../Data/Compress/Input/Assets/Sprites/note.pdf"
             Test-Path -Path "${PSScriptRoot}/../Data/Compress/Output/sample.unitypackage" | Should -Be $true    
         }
+
+        It 'Exclude files with .meta extension' {
+            Compress-UnityPackage `
+                -OutputFilePath "${PSScriptRoot}/../Data/Compress/Output/sample.unitypackage" `
+                -TargetFiles "${PSScriptRoot}/../Data/Compress/Input/Assets/Prefabs/GameObject.prefab", `
+                "${PSScriptRoot}/../Data/Compress/Input/Assets/Prefabs/GameObject.prefab.meta"
+            Test-Path -Path "${PSScriptRoot}/../Data/Compress/Output/sample.unitypackage" | Should -Be $true 
+        }
     }
 
     Context 'Exception Scenario' {
@@ -33,10 +41,6 @@ Describe 'Compress-UnityPackage' {
 
         It 'TargetFiles is empty' {
             { Compress-UnityPackage -OutputFilePath "${PSScriptRoot}/../Data/Compress/Output/sample.unitypackage" -TargetFiles @() } | Should -Throw
-        }
-
-        It 'TargetFiles includes .meta' {
-            { Compress-UnityPackage -OutputFilePath "${PSScriptRoot}/../Data/Compress/Output/sample.unitypackage" -TargetFiles "${PSScriptRoot}/../Data/Compress/Input/Assets/Prefabs/GameObject.prefab.meta" } | Should -Throw
         }
     }
 }

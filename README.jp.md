@@ -2,7 +2,9 @@
 
 [English](README.md)
 
-UnityPackageArchiver は Unity を利用せずに.unitypackage のフォーマットに圧縮・展開ができる PowerShell のモジュールです。ubuntu・windows・macos で動作することができ、CI/CD でも利用できます。
+UnityPackageArchiver は Unity を利用せずに.unitypackage のフォーマットに圧縮・展開ができる PowerShell のモジュールです。
+
+ubuntu・windows・macos で動作することができ、CI/CD でも利用できます。
 
 ![20250212110228](https://github.com/user-attachments/assets/17b461ff-f43b-48a0-8f91-53378516840d)
 
@@ -10,7 +12,6 @@ UnityPackageArchiver は Unity を利用せずに.unitypackage のフォーマ�
 
 - [要件](#要件)
 - [インストール](#インストール)
-  - [PowerShell Gallery](#PowerShell Gallery)
 - [使い方](#使い方)
   - [基本的な使い方](#基本的な使い方)
     - [展開](#展開)
@@ -19,13 +20,11 @@ UnityPackageArchiver は Unity を利用せずに.unitypackage のフォーマ�
 
 # 要件
 
-- ubuntu or windows or macos
+- Ubuntu or Windows or MacOS
 - PowerShell
 - tar コマンド
 
 # インストール
-
-## PowerShell Gallery
 
 PowerShell で以下のコマンドを実行します。
 

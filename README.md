@@ -1,6 +1,6 @@
 # UnityPackageArchiver
 
-[日本語](README.ja.md)
+[日本語](README.jp.md)
 
 UnityPackageArchiver is a PowerShell module that allows you to compress and expand .unitypackage format without using Unity.
 

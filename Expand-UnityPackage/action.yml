@@ -1,0 +1,44 @@
+name: Expand .unitypackage
+description: Expand .unitypackage
+inputs:
+  unity-package-path:
+    description: 'Unity package path'
+    required: true
+    default: './Input.unitypackage'
+  output-dir:
+    description: 'Output directory'
+    required: true
+    default: '.'
+  version:
+    description: 'Version'
+    required: false
+    default: ''
+  working-directory:
+    description: 'Working directory'
+    required: false
+    default: '.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Use Compress-UnityPackage
+      shell: pwsh
+      run: |
+        if(-not '${{ inputs.version }}') {
+            Install-Module -Name UnityPackageArchiver -Force
+        } else {
+            Install-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+        }
+        
+        $workingDirectory = '${{ inputs.working-directory }}'
+        Push-Location $workingDirectory
+        Expand-UnityPackage `
+              -UnityPackagePath "${{ inputs.unity-package-path }}" `
+              -OutputDir "${{ inputs.output-dir }}"
+        Pop-Location
+
+        if(-not '${{ inputs.version }}') {
+            Uninstall-Module -Name UnityPackageArchiver -AllVersions -Force
+        } else {
+            Uninstall-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+        }

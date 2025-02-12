@@ -1,0 +1,44 @@
+name: Compress .unitypackage
+description: Compress .unitypackage
+inputs:
+  output-file-path:
+    description: 'Output file path'
+    required: true
+    default: './Output.unitypackage'
+  target-files:
+    description: 'Target files. Do not include .meta'
+    required: true
+    default: ''
+  version:
+    description: 'Version'
+    required: false
+    default: ''
+  working-directory:
+    description: 'Working directory'
+    required: false
+    default: '.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Use Compress-UnityPackage
+      shell: pwsh
+      run: |
+        if(-not '${{ inputs.version }}') {
+            Install-Module -Name UnityPackageArchiver -Force
+        } else {
+            Install-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+        }
+        
+        $workingDirectory = '${{ inputs.working-directory }}'
+        Push-Location $workingDirectory
+        Compress-UnityPackage `
+              -OutputFilePath "${{ inputs.output-file-path }}" `
+              -TargetFiles "${{ inputs.target-files }}"
+        Pop-Location
+
+        if(-not '${{ inputs.version }}') {
+            Uninstall-Module -Name UnityPackageArchiver -AllVersions -Force
+        } else {
+            Uninstall-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+        }

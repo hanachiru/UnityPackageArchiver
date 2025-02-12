@@ -13,9 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Package
+        id: install-package
         shell: pwsh
         run: |
-          # NOTE: Modules can be used in the same job. Install Path : /home/runner/work/UnityPackageArchiver/UnityPackageArchiver
+          # NOTE: You can change where the module is stored.
+          #       Default Path : /home/runner/work/UnityPackageArchiver/UnityPackageArchiver
+          Write-Output "defaultPSModulePath=${env:PSModulePath}" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
+          $env:PSModulePath = ${{ github.workspace }}/UnityPackageArchiver
+
+          # NOTE: Modules can be used in the same job.
           Install-Module -Name UnityPackageArchiver -Force
 
           # check available module
@@ -29,6 +35,7 @@ jobs:
         shell: pwsh
         run: |
           Expand-UnityPackage -UnityPackagePath ./Tests/Data/Expand/Input/sample.unitypackage -OutputDir ./Tests/Data/Expand/Output
+
       - name: Use Compress-UnityPackage
         shell: pwsh
         run: |
@@ -40,3 +47,9 @@ jobs:
                 "./Tests/Data/Compress/Input/Assets/Scripts/Editor/SampleEditor.cs", `
                 "./Tests/Data/Compress/Input/Assets/Sprites/logo.png", `
                 "./Tests/Data/Compress/Input/Assets/Sprites/note.pdf"
+
+      - name: Uninstall Package
+        shell: pwsh
+        run: |
+          Uninstall-Module -Name UnityPackageArchiver -AllVersions -Force
+          $env:PSModulePath = '${{ steps.install-package.outputs.defaultPSModulePath }}'

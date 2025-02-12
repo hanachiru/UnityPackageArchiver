@@ -29,6 +29,7 @@ runs:
         } else {
             Install-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
         }
+        $module = Get-InstalledModule -Name UnityPackageArchiver
         
         $workingDirectory = '${{ inputs.working-directory }}'
         Push-Location $workingDirectory
@@ -38,7 +39,7 @@ runs:
         Pop-Location
 
         if(-not '${{ inputs.version }}') {
-            Uninstall-Module -Name UnityPackageArchiver -AllVersions -Force
+            Uninstall-Module -Name UnityPackageArchiver -RequiredVersion $module.Version -Force
         } else {
             Uninstall-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
         }

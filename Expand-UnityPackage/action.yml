@@ -25,11 +25,13 @@ runs:
       shell: pwsh
       run: |
         if(-not '${{ inputs.version }}') {
-            Install-Module -Name UnityPackageArchiver -Force
+          Install-Module -Name UnityPackageArchiver -Force
         } else {
-            Install-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+          Install-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
         }
-        
+        $module = Get-InstalledModule -Name UnityPackageArchiver
+
+
         $workingDirectory = '${{ inputs.working-directory }}'
         Push-Location $workingDirectory
         Expand-UnityPackage `
@@ -38,7 +40,7 @@ runs:
         Pop-Location
 
         if(-not '${{ inputs.version }}') {
-            Uninstall-Module -Name UnityPackageArchiver -AllVersions -Force
+            Uninstall-Module -Name UnityPackageArchiver -RequiredVersion $module.Version -Force
         } else {
             Uninstall-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
         }

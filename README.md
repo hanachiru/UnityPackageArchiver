@@ -4,6 +4,8 @@
 
 UnityPackageArchiver is a PowerShell module that can compress and extract the .unitypackage format.
 
+![20250212110228](https://github.com/user-attachments/assets/17b461ff-f43b-48a0-8f91-53378516840d)
+
 # Table of Contents
 
 - [Requirements](#requirements)

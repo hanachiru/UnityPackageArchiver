@@ -1,0 +1,29 @@
+name: Sample
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sample:
+    name: Sample Use Case2
+    runs-on: ubuntu-latest
+    steps:
+      # for SampleData
+      - name: check out
+        uses: actions/checkout@v4
+
+      - name: Use Expand-UnityPackage
+        uses: hanachiru/UnityPackageArchiver/Expand-UnityPackage@feature/create-actions
+        with:
+          unity-package-path: "./Tests/Data/Expand/Input/sample.unitypackage"
+          output-dir: "./Tests/Data/Expand/Output"
+
+      - name: Use Compress-UnityPackage
+        uses: hanachiru/UnityPackageArchiver/Compress-UnityPackage@feature/create-actions
+        with:
+          output-file-path: "./Tests/Data/Compress/Output/Sample.unitypackage"
+          target-files: "./Tests/Data/Compress/Input/Assets/Prefabs/GameObject.prefab, ./Tests/Data/Compress/Input/Assets/Scenes/SampleScene.unity, ./Tests/Data/Compress/Input/Assets/Scripts/Sample.cs, ./Tests/Data/Compress/Input/Assets/Scripts/Editor/SampleEditor.cs, ./Tests/Data/Compress/Input/Assets/Sprites/logo.png, ./Tests/Data/Compress/Input/Assets/Sprites/note.pdf"

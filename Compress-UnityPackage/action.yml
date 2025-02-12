@@ -6,7 +6,7 @@ inputs:
     required: true
     default: './Output.unitypackage'
   target-files:
-    description: 'Target files. Do not include .meta'
+    description: 'Target files. Use commas to describe multiple paths. Do not include .meta (ex: "./Assets/Scripts/Sample.cs, ./Assets/Scripts/Editor/SampleEditor.cs")'
     required: true
     default: ''
   version:
@@ -33,9 +33,10 @@ runs:
         
         $workingDirectory = '${{ inputs.working-directory }}'
         Push-Location $workingDirectory
+        $targetFiles = '${{ inputs.target-files }}' -replace '"', '' -replace "'", ''
         Compress-UnityPackage `
               -OutputFilePath "${{ inputs.output-file-path }}" `
-              -TargetFiles "${{ inputs.target-files }}"
+              -TargetFiles $targetFiles
         Pop-Location
 
         if(-not '${{ inputs.version }}') {

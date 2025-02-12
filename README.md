@@ -56,6 +56,8 @@ $ Compress-UnityPackage -OutputFilePath "./path/to/output.unitypackage" -TargetF
 
 List the files you want to include in -TargetFiles. Note that .meta files will be ignored even if specified.
 
+Also, preview.png is not supported. preview.png is the thumbnail displayed on the Asset Store website. There are no practical problems with this.
+
 ## CI/CD
 
 ```yml
@@ -67,11 +69,9 @@ jobs:
     name: Sample
     runs-on: ubuntu-latest
     steps:
-      # for checkout SampleData
+      # for checkout YourData
       - name: check out
         uses: actions/checkout@v4
-        with:
-          ref: main
 
       - name: Use Expand-UnityPackage
         uses: hanachiru/UnityPackageArchiver/Expand-UnityPackage@main

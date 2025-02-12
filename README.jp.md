@@ -58,6 +58,8 @@ $ Compress-UnityPackage -OutputFilePath "./path/to/output.unitypackage" -TargetF
 
 -TargetFiles には含めたいファイルの一覧を記述します。また.meta ファイルを指定しても無視されるので注意してください。
 
+また preview.png には対応していません。preview.png はアセットストアのウェブサイトに表示されるサムネイルです。実用上は特に問題はありません。
+
 ## CI/CD
 
 ```yaml
@@ -69,11 +71,9 @@ jobs:
     name: Sample
     runs-on: ubuntu-latest
     steps:
-      # for checkout SampleData
+      # for checkout YourData
       - name: check out
         uses: actions/checkout@v4
-        with:
-          ref: main
 
       - name: Use Expand-UnityPackage
         uses: hanachiru/UnityPackageArchiver/Expand-UnityPackage@main

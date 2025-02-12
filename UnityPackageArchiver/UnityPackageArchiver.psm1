@@ -204,7 +204,7 @@ function Compress-UnityPackage {
         $path = $mapping[$guid] -replace '.*?(Assets)', 'Assets'
         Set-Content -Path $pathnamePath -Value $path -Encoding utf8
 
-        Write-Output "$guid => $($mapping[$guid])"
+        #Write-Output "$guid => $($mapping[$guid])"
     }
 
     tar -czf $OutputFilePath -C $tempDirPath .

@@ -18,6 +18,7 @@ function Expand-UnityPackage {
         [string]$OutputDir = ""
     )
 
+    Set-PSDebug -Trace 1
     # Validate
     if (-not (Get-Command tar -ErrorAction SilentlyContinue)) {
         throw "The 'tar' command is not available. Please ensure that 'tar' is installed and accessible in your PATH."
@@ -118,6 +119,7 @@ function Compress-UnityPackage {
         [string[]]$TargetFiles
     )
 
+    Set-PSDebug -Trace 1
     $outputFileExtension = [System.IO.Path]::GetExtension($OutputFilePath)
     if ($outputFileExtension -ne ".unitypackage") {
         throw "The output file must be a .unitypackage file."

@@ -19,7 +19,7 @@ jobs:
           # NOTE: You can change where the module is stored.
           #       Default Path : /home/runner/work/UnityPackageArchiver/UnityPackageArchiver
           Write-Output "defaultPSModulePath=${env:PSModulePath}" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
-          $env:PSModulePath = ${{ github.workspace }}/UnityPackageArchiver
+          $env:PSModulePath = '${{ github.workspace }}/UnityPackageArchiver'
 
           # NOTE: Modules can be used in the same job.
           Install-Module -Name UnityPackageArchiver -Force

@@ -24,6 +24,8 @@ runs:
     - name: Use Compress-UnityPackage
       shell: pwsh
       run: |
+        Set-PSDebug -Trace 1
+
         if(-not '${{ inputs.version }}') {
             Install-Module -Name UnityPackageArchiver -Force
         } else {

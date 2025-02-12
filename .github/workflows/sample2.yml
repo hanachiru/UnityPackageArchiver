@@ -15,6 +15,8 @@ jobs:
       # for SampleData
       - name: check out
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Use Expand-UnityPackage
         uses: hanachiru/UnityPackageArchiver/Expand-UnityPackage@feature/create-actions

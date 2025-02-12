@@ -36,7 +36,7 @@ runs:
         $targetFiles = '${{ inputs.target-files }}' -replace '"', '' -replace "'", ''
         Compress-UnityPackage `
               -OutputFilePath "${{ inputs.output-file-path }}" `
-              -TargetFiles $targetFiles
+              -TargetFiles $targetFiles.Split(',')
         Pop-Location
 
         if(-not '${{ inputs.version }}') {

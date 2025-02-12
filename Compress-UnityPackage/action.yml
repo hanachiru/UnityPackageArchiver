@@ -35,10 +35,10 @@ runs:
         
         $workingDirectory = '${{ inputs.working-directory }}'
         Push-Location $workingDirectory
-        $targetFiles = '${{ inputs.target-files }}'.Split(',') | ForEach-Object { "'$($_.Trim())'" }
+        $targetFiles = '${{ inputs.target-files }}'.Split(',') | ForEach-Object { $_.Trim() }
         Compress-UnityPackage `
               -OutputFilePath "${{ inputs.output-file-path }}" `
-              -TargetFiles ($targetFiles -join ", ")
+              -TargetFiles $targetFiles
         Pop-Location
 
         if(-not '${{ inputs.version }}') {

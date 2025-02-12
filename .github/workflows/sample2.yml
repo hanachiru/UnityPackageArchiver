@@ -1,4 +1,4 @@
-name: Sample
+name: Sample2
 on:
   push:
     branches:

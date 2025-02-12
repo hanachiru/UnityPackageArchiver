@@ -69,7 +69,7 @@ jobs:
     name: Sample
     runs-on: ubuntu-latest
     steps:
-      # for checkout YourData
+      # for checkout Sample Data
       - name: check out
         uses: actions/checkout@v4
 

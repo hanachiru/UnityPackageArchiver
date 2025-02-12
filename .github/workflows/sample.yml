@@ -15,8 +15,8 @@ jobs:
       - name: Install Package
         shell: pwsh
         run: |
-          # NOTE: Modules can be used in the same job. Install Path : /home/runner/work/UnityPackageArchiver/UnityPackageArchiver
-          Install-Module -Name UnityPackageArchiver -Force
+          # NOTE: Modules can be used in the same job.
+          Install-Module -Name UnityPackageArchiver -Force -Scope CurrentUser
 
           # check available module
           Get-Module -ListAvailable UnityPackageArchiver
@@ -29,6 +29,7 @@ jobs:
         shell: pwsh
         run: |
           Expand-UnityPackage -UnityPackagePath ./Tests/Data/Expand/Input/sample.unitypackage -OutputDir ./Tests/Data/Expand/Output
+
       - name: Use Compress-UnityPackage
         shell: pwsh
         run: |
@@ -40,3 +41,8 @@ jobs:
                 "./Tests/Data/Compress/Input/Assets/Scripts/Editor/SampleEditor.cs", `
                 "./Tests/Data/Compress/Input/Assets/Sprites/logo.png", `
                 "./Tests/Data/Compress/Input/Assets/Sprites/note.pdf"
+
+      - name: Uninstall Package
+        shell: pwsh
+        run: |
+          Uninstall-Module -Name UnityPackageArchiver -Force

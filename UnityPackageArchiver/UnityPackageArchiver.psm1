@@ -186,7 +186,7 @@ function Compress-UnityPackage {
 
     foreach ($guid in $mapping.Keys) {
         $dirPath = Join-Path -Path $tempDirPath -ChildPath $guid
-        New-Item -ItemType Directory -Path $dirPath
+        New-Item -ItemType Directory -Path $dirPath -ErrorAction Stop | Out-Null
 
         $sourceFile = $mapping[$guid]
         $sourceMetaFile = "${sourceFile}.meta"

@@ -1,0 +1,50 @@
+name: Compress .unitypackage
+description: Compress .unitypackage
+inputs:
+  output-file-path:
+    description: 'Output file path'
+    required: true
+    default: './Output.unitypackage'
+  target-files:
+    description: 'Target files. Use commas to describe multiple paths. Do not include .meta (ex: "./Assets/Scripts/Sample.cs, ./Assets/Scripts/Editor/SampleEditor.cs")'
+    required: true
+    default: ''
+  version:
+    description: 'Version'
+    required: false
+    default: ''
+  working-directory:
+    description: 'Working directory'
+    required: false
+    default: '.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Use Compress-UnityPackage
+      shell: pwsh
+      run: |
+        Set-PSDebug -Trace 1
+
+        if(-not '${{ inputs.version }}') {
+            Install-Module -Name UnityPackageArchiver -Force
+        } else {
+            Install-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+        }
+        $module = Get-InstalledModule -Name UnityPackageArchiver
+        
+        $workingDirectory = '${{ inputs.working-directory }}'
+        Push-Location $workingDirectory
+        $targetFiles = '${{ inputs.target-files }}' -replace '"', '' -replace "'", ''
+        Write-Output "Target Files: $targetFiles"
+        Write-Output "$targetFiles.Split(',')"
+        Compress-UnityPackage `
+              -OutputFilePath "${{ inputs.output-file-path }}" `
+              -TargetFiles $targetFiles.Split(',')
+        Pop-Location
+
+        if(-not '${{ inputs.version }}') {
+            Uninstall-Module -Name UnityPackageArchiver -RequiredVersion $module.Version -Force
+        } else {
+            Uninstall-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+        }

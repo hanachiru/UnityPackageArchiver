@@ -4,7 +4,7 @@
 
 UnityPackageArchiver is a PowerShell module that allows you to compress and expand .unitypackage format without using Unity.
 
-It works on ubuntu, windows, and macos, and can be used in CI/CD.
+It works on ubuntu, windows and macos. Also useful for CI/CD.
 
 ![20250212110228](https://github.com/user-attachments/assets/17b461ff-f43b-48a0-8f91-53378516840d)
 

@@ -126,6 +126,9 @@ function Compress-UnityPackage {
         throw "The target files are empty."
     }
 
+    # NOTE: Exclude files with .meta extension
+    $TargetFiles = $TargetFiles | Where-Object { [System.IO.Path]::GetExtension($_) -ne ".meta" }
+
     $outputDirPath = [System.IO.Path]::GetDirectoryName($OutputFilePath)
     $tempDirPath = Join-Path -Path $outputDirPath -ChildPath "temp"
     if (Test-Path -Path $tempDirPath) {

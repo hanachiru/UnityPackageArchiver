@@ -20,7 +20,6 @@ ubuntu・windows・macos で動作することができ、CI/CD でも利用で�
 
 # 要件
 
-- Ubuntu or Windows or MacOS
 - PowerShell
 - tar コマンド
 
@@ -56,7 +55,7 @@ $ Expand-UnityPackage -UnityPackagePath "./path/to/package.unitypackage" -Output
 $ Compress-UnityPackage -OutputFilePath "./path/to/output.unitypackage" -TargetFiles "./path/to/Assets/MyAsset.prefab", "./path/to/Assets/MyScript.cs"
 ```
 
--TargetFiles には含めたいファイルの一覧を記述します。また.meta ファイルを指定しても無視されるので注意してください。
+-TargetFiles には 含めたい Assets ディレクトリ以下のファイル一覧を記述します。また.meta ファイルを指定しても無視されるので注意してください。
 
 また preview.png には対応していません。preview.png はアセットストアのウェブサイトに表示されるサムネイルです。実用上は特に問題はありません。
 

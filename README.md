@@ -20,7 +20,6 @@ It works on ubuntu, windows and macos. Also useful for CI/CD.
 
 # Requirements
 
-- Ubuntu or Windows or MacOS
 - PowerShell
 - tar command
 
@@ -54,7 +53,7 @@ You can compress files into a .unitypackage by running the following command.
 $ Compress-UnityPackage -OutputFilePath "./path/to/output.unitypackage" -TargetFiles "./path/to/Assets/MyAsset.prefab", "./path/to/Assets/MyScript.cs"
 ```
 
-List the files you want to include in -TargetFiles. Note that .meta files will be ignored even if specified.
+List the files under the Assets directory that you want to include in the TargetFiles argument. Note that .meta files will be ignored even if specified.
 
 Also, preview.png is not supported. preview.png is the thumbnail displayed on the Asset Store website. There are no practical problems with this.
 

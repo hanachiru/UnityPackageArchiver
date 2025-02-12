@@ -13,18 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Package
-        id: install-package
         shell: pwsh
         run: |
-          # NOTE: You can change where the module is stored.
-          #       Default Path : /home/runner/work/UnityPackageArchiver/UnityPackageArchiver
-          Write-Output "defaultPSModulePath=${env:PSModulePath}" | Tee-Object -FilePath ${env:GITHUB_OUTPUT} -Append
-          $env:PSModulePath = '${{ github.workspace }}/UnityPackageArchiver'
-          Import-Module PowerShellGet -Force
-          New-Item -Path $env:PSModulePath -ItemType Directory -Force
-
           # NOTE: Modules can be used in the same job.
-          Install-Module -Name UnityPackageArchiver -Force
+          Install-Module -Name UnityPackageArchiver -Force -Scope CurrentUser
 
           # check available module
           Get-Module -ListAvailable UnityPackageArchiver
@@ -53,5 +45,4 @@ jobs:
       - name: Uninstall Package
         shell: pwsh
         run: |
-          Uninstall-Module -Name UnityPackageArchiver -AllVersions -Force
-          $env:PSModulePath = '${{ steps.install-package.outputs.defaultPSModulePath }}'
+          Uninstall-Module -Name UnityPackageArchiver -Force

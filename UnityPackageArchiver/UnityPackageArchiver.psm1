@@ -82,14 +82,14 @@ function Expand-UnityPackage {
         $metaSource = Join-Path -Path $tempDirPath -ChildPath "${guid}/asset.meta"
 
         if (-not (Test-Path -Path $destDir)) {
-            New-Item -ItemType Directory -Path $destDir
+            New-Item -ItemType Directory -Path $destDir -ErrorAction Stop | Out-Null
         }
 
         if (Test-Path -Path $source) {
-            Move-Item -Path $source -Destination $assetFile -Force
+            Move-Item -Path $source -Destination $assetFile -Force -ErrorAction Stop | Out-Null
         }
         if (Test-Path -Path $metaSource) {
-            Move-Item -Path $metaSource -Destination $metaFile -Force
+            Move-Item -Path $metaSource -Destination $metaFile -Force -ErrorAction Stop | Out-Null
         }
 
         Write-Output "$guid => $($mapping[$guid])"
@@ -196,13 +196,13 @@ function Compress-UnityPackage {
         $pathnamePath = Join-Path -Path $dirPath -ChildPath "pathname"
 
         if (Test-Path -Path $sourceFile -PathType Leaf) {
-            Copy-Item  -Path $sourceFile -Destination $assetPath -Force
+            Copy-Item  -Path $sourceFile -Destination $assetPath -Force -ErrorAction Stop | Out-Null
         }
-        Copy-Item  -Path $sourceMetaFile -Destination $metaPath -Force
+        Copy-Item  -Path $sourceMetaFile -Destination $metaPath -Force -ErrorAction Stop | Out-Null
 
         # NOTE: Extracts the first matching ‘Assets’ and subsequent parts from the Path.
         $path = $mapping[$guid] -replace '.*?(Assets)', 'Assets'
-        Set-Content -Path $pathnamePath -Value $path -Encoding utf8
+        Set-Content -Path $pathnamePath -Value $path -Encoding utf8 -ErrorAction Stop | Out-Null
 
         Write-Output "$guid => $($mapping[$guid])"
     }

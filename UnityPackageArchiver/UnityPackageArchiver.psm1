@@ -188,7 +188,7 @@ function Compress-UnityPackage {
 
     foreach ($guid in $mapping.Keys) {
         $dirPath = Join-Path -Path $tempDirPath -ChildPath $guid
-        New-Item -ItemType Directory -Path $dirPath
+        New-Item -ItemType Directory -Path $dirPath -ErrorAction Stop | Out-Null
 
         $sourceFile = $mapping[$guid]
         $sourceMetaFile = "${sourceFile}.meta"
@@ -206,7 +206,7 @@ function Compress-UnityPackage {
         $path = $mapping[$guid] -replace '.*?(Assets)', 'Assets'
         Set-Content -Path $pathnamePath -Value $path -Encoding utf8 -ErrorAction Stop | Out-Null
 
-        #Write-Output "$guid => $($mapping[$guid])"
+        Write-Output "$guid => $($mapping[$guid])"
     }
 
     tar -czf $OutputFilePath -C $tempDirPath .

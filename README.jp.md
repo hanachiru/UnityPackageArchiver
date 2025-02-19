@@ -20,7 +20,7 @@ ubuntu・windows・macos で動作することができ、CI/CD でも利用で�
 
 # 要件
 
-- PowerShell
+- PowerShell 6 or newer
 - tar コマンド
 
 # インストール

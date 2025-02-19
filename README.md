@@ -20,7 +20,7 @@ It works on ubuntu, windows and macos. Also useful for CI/CD.
 
 # Requirements
 
-- PowerShell
+- PowerShell 6 or newer
 - tar command
 
 # Installation

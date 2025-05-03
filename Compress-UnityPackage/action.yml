@@ -29,18 +29,24 @@ runs:
         } else {
             Install-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
         }
-        $module = Get-InstalledModule -Name UnityPackageArchiver
-        
-        $workingDirectory = '${{ inputs.working-directory }}'
-        Push-Location $workingDirectory
-        $targetFiles = '${{ inputs.target-files }}'.Split(',') | ForEach-Object { $_.Trim() }
-        Compress-UnityPackage `
-              -OutputFilePath "${{ inputs.output-file-path }}" `
-              -TargetFiles $targetFiles
-        Pop-Location
 
-        if(-not '${{ inputs.version }}') {
+        try {
+          $module = Get-InstalledModule -Name UnityPackageArchiver
+          
+          $workingDirectory = '${{ inputs.working-directory }}'
+          Push-Location $workingDirectory
+          $targetFiles = '${{ inputs.target-files }}'.Split(',') | ForEach-Object { $_.Trim() }
+          Compress-UnityPackage `
+                -OutputFilePath "${{ inputs.output-file-path }}" `
+                -TargetFiles $targetFiles
+          Pop-Location
+        } catch {
+          Write-Error "An error occurred during execution: $_"
+          throw
+        } finally {
+          if(-not '${{ inputs.version }}') {
             Uninstall-Module -Name UnityPackageArchiver -RequiredVersion $module.Version -Force
-        } else {
+          } else {
             Uninstall-Module -Name UnityPackageArchiver -RequiredVersion ${{ inputs.version }} -Force
+          }
         }
